@@ -19,7 +19,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     MainAdapter(ArrayList<Landmark> array, Context context) {
         mArray = array;
-        mContext = context
+        mContext = context;
     }
 
     @Override
@@ -44,7 +44,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
 
     LandmarkViewHolder(View itemView) {
         super(itemView);
-        
+
     }
 
 }
