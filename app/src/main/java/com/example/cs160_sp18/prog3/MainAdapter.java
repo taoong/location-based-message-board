@@ -1,6 +1,7 @@
 package com.example.cs160_sp18.prog3;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter {
 
-    ArrayList<Landmark> mArray;
+    ArrayList<CardView> mArray;
     Context mContext;
 
-    MainAdapter(ArrayList<Landmark> array, Context context) {
+    MainAdapter(ArrayList<CardView> array, Context context) {
         mArray = array;
         mContext = context;
     }
