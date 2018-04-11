@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter {
 
-    ArrayList<CardView> mArray;
+    ArrayList<CardView> mLandmarks;
     Context mContext;
 
-    MainAdapter(ArrayList<CardView> array, Context context) {
-        mArray = array;
+    MainAdapter(ArrayList<CardView> landmarks, Context context) {
+        mLandmarks= landmarks;
         mContext = context;
     }
 
@@ -35,7 +35,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mArray.size();
+        return mLandmarks.size();
     }
 }
 
