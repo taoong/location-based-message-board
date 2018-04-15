@@ -5,11 +5,15 @@ package com.example.cs160_sp18.prog3;
  */
 
 public class Landmark {
-    public String text;
-    public String username;
+    public String name;
+    public String distance;
 
     Landmark(String text, String username) {
-        this.text = text;
-        this.username = username;
+        this.name = text;
+        this.distance = username;
+    }
+
+    protected void getDistance() {
+
     }
 }
