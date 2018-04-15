@@ -60,8 +60,8 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mLandmarkLayout = itemView.findViewById(R.id.landmark_cell_layout);
         mThumbnailImageView = mLandmarkLayout.findViewById(R.id.thumbnail);
-        mNameTextView = mLandmarkLayout.findViewById(R.id.username_text_view);
-        mDistanceTextView = mLandmarkLayout.findViewById(R.id.date_text_view);
+        mNameTextView = mLandmarkLayout.findViewById(R.id.location_name);
+        mDistanceTextView = mLandmarkLayout.findViewById(R.id.location_distance);
     }
 
     void bind(Landmark landmark) {
