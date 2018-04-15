@@ -1,5 +1,6 @@
 package com.example.cs160_sp18.prog3;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     // UI elements
     Toolbar mToolbar;
-    RelativeLayout layout;
+    CoordinatorLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // sets the app bar's title
         setTitle(landmarkName + ": Posts");
 
-        layout = (RelativeLayout) findViewById(R.id.landmark_layout);
+        layout = (CoordinatorLayout) findViewById(R.id.landmark_layout);
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
@@ -52,16 +53,18 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MainAdapter(mLandmarks, this);
         mRecyclerView.setAdapter(mAdapter);
 
-        // scroll to the last comment
-        mRecyclerView.smoothScrollToPosition(mLandmarks.size() - 1);
     }
 
     private void makeTestLandmarks() {
         String randomString = "hello world hello world ";
         Landmark test1 = new Landmark(randomString, randomString);
         Landmark test2 = new Landmark(randomString, randomString);
+        Landmark test3 = new Landmark(randomString, randomString);
+        Landmark test4 = new Landmark(randomString, randomString);
         mLandmarks.add(test1);
         mLandmarks.add(test2);
+        mLandmarks.add(test3);
+        mLandmarks.add(test4);
     }
 
 }

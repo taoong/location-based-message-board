@@ -43,7 +43,8 @@
         android:paddingBottom="10dp"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        >
 
         <!-- new comment edit text  -->
         <EditText
