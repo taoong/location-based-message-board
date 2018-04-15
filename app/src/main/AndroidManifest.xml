@@ -11,13 +11,6 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".CommentFeedActivity"
-            android:label="@string/title_activity_comment_feed"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
-
-        <activity
             android:name=".MainActivity"
             android:label="Landmark Feed"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -26,6 +19,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".CommentFeedActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/title_activity_comment_feed"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
     </application>

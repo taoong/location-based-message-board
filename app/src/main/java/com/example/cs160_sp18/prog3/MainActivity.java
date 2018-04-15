@@ -1,5 +1,6 @@
 package com.example.cs160_sp18.prog3;
 
+import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,12 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landmark_feed);
 
-        // TODO: replace this with the name of the landmark the user chose
-        String landmarkName = "test landmark";
-
-        // sets the app bar's title
-        setTitle(landmarkName + ": Posts");
-
         layout = (CoordinatorLayout) findViewById(R.id.landmark_layout);
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -57,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void makeTestLandmarks() {
         String randomString = "hello world hello world ";
-        Landmark test1 = new Landmark(randomString, randomString);
-        Landmark test2 = new Landmark(randomString, randomString);
-        Landmark test3 = new Landmark(randomString, randomString);
-        Landmark test4 = new Landmark(randomString, randomString);
+        Landmark test1 = new Landmark(randomString, randomString, R.drawable.bell_bears);
+        Landmark test2 = new Landmark(randomString, randomString, R.drawable.bench_bears);
+        Landmark test3 = new Landmark(randomString, randomString, R.drawable.in_stadium);
+        Landmark test4 = new Landmark(randomString, randomString, R.drawable.mlk_bear);
         mLandmarks.add(test1);
         mLandmarks.add(test2);
         mLandmarks.add(test3);

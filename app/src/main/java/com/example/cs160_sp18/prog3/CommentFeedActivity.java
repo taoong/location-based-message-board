@@ -1,11 +1,14 @@
 package com.example.cs160_sp18.prog3;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +30,7 @@ public class CommentFeedActivity extends AppCompatActivity {
     RelativeLayout layout;
     Button sendButton;
     Toolbar mToolbar;
+    ActionBar actionBar;
 
     /* TODO: right now mRecyclerView is using hard coded comments.
      * You'll need to add functionality for pulling and posting comments from Firebase
@@ -50,6 +54,7 @@ public class CommentFeedActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_recycler);
         mRecyclerView.setHasFixedSize(true);
@@ -64,6 +69,21 @@ public class CommentFeedActivity extends AppCompatActivity {
         // use the comments in mComments to create an adapter. This will populate mRecyclerView
         // with a custom cell (with comment_cell_layout) for each comment in mComments
         setAdapterAndUpdateData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
     // TODO: delete me

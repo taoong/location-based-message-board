@@ -1,6 +1,7 @@
 package com.example.cs160_sp18.prog3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -47,6 +49,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return mLandmarks.size();
     }
+
 }
 
 class LandmarkViewHolder extends RecyclerView.ViewHolder {
@@ -55,18 +58,27 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
     public ImageView mThumbnailImageView;
     public TextView mNameTextView;
     public TextView mDistanceTextView;
+    public View.OnClickListener mOnClickListener;
 
-    LandmarkViewHolder(View itemView) {
+    LandmarkViewHolder(final View itemView) {
         super(itemView);
         mLandmarkLayout = itemView.findViewById(R.id.landmark_cell_layout);
         mThumbnailImageView = mLandmarkLayout.findViewById(R.id.thumbnail);
         mNameTextView = mLandmarkLayout.findViewById(R.id.location_name);
         mDistanceTextView = mLandmarkLayout.findViewById(R.id.location_distance);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(itemView.getContext(), CommentFeedActivity.class);
+                itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     void bind(Landmark landmark) {
         mNameTextView.setText(landmark.name);
         mDistanceTextView.setText(landmark.distance);
+        mThumbnailImageView.setImageResource(landmark.thumbnail);
     }
 
 }
