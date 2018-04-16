@@ -1,5 +1,6 @@
 package com.example.cs160_sp18.prog3;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private ArrayList<Landmark> mLandmarks = new ArrayList<>();
     public ArrayList<Object> mLandmarkData = new ArrayList<>();
+    String username;
 
     // UI elements
     Toolbar mToolbar;
@@ -45,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Intent intent = getIntent();
+        Bundle intentExtras = intent.getExtras();
+        if (intentExtras != null) {
+            username = (String) intentExtras.get("username");
+        }
+
         getLandmarks();
 
         setAdapterAndUpdateData();
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private void setAdapterAndUpdateData() {
         // create a new adapter with the updated mComments array
         // this will "refresh" our recycler view
-        mAdapter = new MainAdapter(mLandmarks, this);
+        mAdapter = new MainAdapter(mLandmarks, this, username);
         mRecyclerView.setAdapter(mAdapter);
 
     }

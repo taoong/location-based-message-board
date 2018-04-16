@@ -22,10 +22,12 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     ArrayList<Landmark> mLandmarks;
     Context mContext;
+    String mUsername;
 
-    MainAdapter(ArrayList<Landmark> landmarks, Context context) {
+    MainAdapter(ArrayList<Landmark> landmarks, Context context, String username) {
         mLandmarks = landmarks;
         mContext = context;
+        mUsername = username;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.landmark_layout, parent, false);
-        return new LandmarkViewHolder(view);
+        return new LandmarkViewHolder(view, mUsername);
     }
 
     @Override
@@ -60,7 +62,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
     public TextView mDistanceTextView;
     public String title;
 
-    LandmarkViewHolder(final View itemView) {
+    LandmarkViewHolder(final View itemView, final String username) {
         super(itemView);
         mLandmarkLayout = itemView.findViewById(R.id.landmark_cell_layout);
         mThumbnailImageView = mLandmarkLayout.findViewById(R.id.thumbnail);
@@ -71,6 +73,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent intent = new Intent(itemView.getContext(), CommentFeedActivity.class);
                 intent.putExtra("title", title);
+                intent.putExtra("username", username);
                 itemView.getContext().startActivity(intent);
             }
         });
