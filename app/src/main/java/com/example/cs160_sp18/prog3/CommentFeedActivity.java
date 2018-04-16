@@ -46,10 +46,6 @@ public class CommentFeedActivity extends AppCompatActivity {
     String username;
     DatabaseReference myRef;
 
-    /* TODO: right now mRecyclerView is using hard coded comments.
-     * You'll need to add functionality for pulling and posting comments from Firebase
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

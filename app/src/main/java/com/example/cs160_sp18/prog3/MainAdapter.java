@@ -2,7 +2,10 @@ package com.example.cs160_sp18.prog3;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -23,11 +25,13 @@ public class MainAdapter extends RecyclerView.Adapter {
     ArrayList<Landmark> mLandmarks;
     Context mContext;
     String mUsername;
+    Location mLocation;
 
-    MainAdapter(ArrayList<Landmark> landmarks, Context context, String username) {
+    MainAdapter(ArrayList<Landmark> landmarks, Context context, String username, Location location) {
         mLandmarks = landmarks;
         mContext = context;
         mUsername = username;
+        mLocation = location;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Landmark landmark = mLandmarks.get(position);
-        ((LandmarkViewHolder) holder).bind(landmark);
+        ((LandmarkViewHolder) holder).bind(landmark, mLocation);
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
 }
 
-class LandmarkViewHolder extends RecyclerView.ViewHolder {
+class LandmarkViewHolder extends RecyclerView.ViewHolder{
 
     public RelativeLayout mLandmarkLayout;
     public ImageView mThumbnailImageView;
@@ -64,6 +68,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
 
     LandmarkViewHolder(final View itemView, final String username) {
         super(itemView);
+
         mLandmarkLayout = itemView.findViewById(R.id.landmark_cell_layout);
         mThumbnailImageView = mLandmarkLayout.findViewById(R.id.thumbnail);
         mNameTextView = mLandmarkLayout.findViewById(R.id.location_name);
@@ -79,10 +84,10 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    void bind(Landmark landmark) {
+    void bind(Landmark landmark, Location location) {
         mNameTextView.setText(landmark.name);
         title = landmark.name;
-        mDistanceTextView.setText(landmark.distance);
+        mDistanceTextView.setText(Float.toString(landmark.getDistance(location)) + " meters away");
         mThumbnailImageView.setImageResource(landmark.thumbnail);
     }
 
