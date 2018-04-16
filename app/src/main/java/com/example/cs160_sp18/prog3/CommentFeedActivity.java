@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 // Displays a list of comments for a particular landmark.
 public class CommentFeedActivity extends AppCompatActivity {
@@ -74,8 +76,21 @@ public class CommentFeedActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Set a breakpoint in this method and run in debug mode!!
                 // this will be called each time `someRef` or one of its children is modified
-                HashMap<String, String> value = (HashMap<String, String>) dataSnapshot.getValue();
-                mComments.add(new Comment(value.get("text"), value.get("username"), value.get("date")));
+
+                HashMap<String, Object> initialMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                SortedMap<String, Object> value = new TreeMap<String, Object>(initialMap);
+                Log.d("123", value.toString());
+                Log.d("123", value.keySet().toString());
+                Log.d("123", value.values().toString());
+                Log.d("123", Integer.toString(value.size()));
+                ArrayList<Comment> mNewComments = new ArrayList<Comment>();
+                for (String key : value.keySet()) {
+                    HashMap<String, String> newComment = (HashMap<String, String>) value.get(key);
+                    mNewComments.add(new Comment(newComment.get("text"), newComment.get("username"), newComment.get("date")));
+                }
+                mComments = mNewComments;
+
+                //mComments.add(new Comment(value.get("text"), value.get("username"), value.get("date")));
                 setAdapterAndUpdateData();
             }
             @Override
@@ -159,9 +174,7 @@ public class CommentFeedActivity extends AppCompatActivity {
 
     private void postNewComment(String commentText) {
         Comment newComment = new Comment(commentText, "one-sixty student", Long.toString(new Date().getTime()));
-        mComments.add(newComment);
-
-        myRef.setValue(newComment);
+        myRef.child(newComment.date).setValue(newComment);
         setAdapterAndUpdateData();
     }
 

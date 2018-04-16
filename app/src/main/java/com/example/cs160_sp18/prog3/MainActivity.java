@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLandmarks() {
-        JSONObject jsonObj = null;
+        JSONObject jsonObj;
 
         try {
             String jsonStr = "[ {\"landmark_name\": \"Class of 1927 Bear\",\"coordinates\": \"37.869288, -122.260125\",\"filename\": \"mlk_bear\"},{\"landmark_name\": \"Stadium Entrance Bear\",\"coordinates\": \"37.871305, -122.252516\",\"filename\": \"outside_stadium\"},{\"landmark_name\": \"Macchi Bears\",\"coordinates\": \"37.874118, -122.258778\", \"filename\": \"macchi_bears\"}, {\"landmark_name\": \"Les Bears\",\"coordinates\": \"37.871707, -122.253602\",\"filename\": \"les_bears\"}, {\"landmark_name\": \"Strawberry Creek Topiary Bear \",\"coordinates\": \"37.869861, -122.261148\",\"filename\": \"strawberry_creek\"}, {\"landmark_name\": \"South Hall Little Bear\",\"coordinates\": \"37.871382, -122.258355\",\"filename\": \"south_hall\"}, {\"landmark_name\": \"Great Bear Bell Bears\",\"coordinates\": \"37.872061599999995,-122.2578123\",\"filename\": \"bell_bears\"}, {\"landmark_name\": \"Campanile Esplanade Bears\",\"coordinates\": \"37.87233810000001,-122.25792999999999\",\"filename\": \"bench_bears\"}]";
@@ -69,11 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 Landmark mNewLandmark = new Landmark(jsonObj.getString("landmark_name"), jsonObj.getString("coordinates"), getResources().getIdentifier(jsonObj.getString("filename"), "drawable", getPackageName()));
                 mLandmarks.add(mNewLandmark);
             }
-
-            Log.d("0", jsonObj.toString());
-            Log.d("1", "ALSKDJLAKSDJLAKSDJLAKSDJLAKSDJLASKDJ");
         } catch (JSONException e) {
-            Log.d("2", "BADBADBADBADBADBADBAD");
+            Log.d("0", "NOT ABLE TO LOAD JSON");
         }
     }
 
