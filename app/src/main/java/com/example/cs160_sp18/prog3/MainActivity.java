@@ -15,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     // UI elements
     Toolbar mToolbar;
     CoordinatorLayout layout;
+    Button updateLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
+
+        updateLocation = (Button) findViewById(R.id.toolbar_btn);
+        updateLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Location sampleLocation = new Location("");
+                sampleLocation.setLatitude(37.869288d);
+                sampleLocation.setLongitude(-122.260125d);
+                onLocationChanged(sampleLocation);
+                setAdapterAndUpdateData();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.landmark_recycler);
         mRecyclerView.setHasFixedSize(true);
@@ -62,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         setAdapterAndUpdateData();
 
-
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -77,12 +90,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Log.d("12345678999999", "BADBADBADBADBAD");
+            Location sampleLocation = new Location("");
+            sampleLocation.setLatitude(37.789d);
+            sampleLocation.setLongitude(-122.084d);
+            onLocationChanged(sampleLocation);
+
+            setAdapterAndUpdateData();
             return;
         }
         Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-        Log.d("123456789", location.toString());
         onLocationChanged(location);
+
+        setAdapterAndUpdateData();
     }
+
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -116,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         JSONObject jsonObj;
 
         try {
-            String jsonStr = "[ {\"landmark_name\": \"Class of 1927 Bear\",\"coordinates\": \"37.869288, -122.260125\",\"filename\": \"mlk_bear\"},{\"landmark_name\": \"Stadium Entrance Bear\",\"coordinates\": \"37.871305, -122.252516\",\"filename\": \"outside_stadium\"},{\"landmark_name\": \"Macchi Bears\",\"coordinates\": \"37.874118, -122.258778\", \"filename\": \"macchi_bears\"}, {\"landmark_name\": \"Les Bears\",\"coordinates\": \"37.871707, -122.253602\",\"filename\": \"les_bears\"}, {\"landmark_name\": \"Strawberry Creek Topiary Bear \",\"coordinates\": \"37.869861, -122.261148\",\"filename\": \"strawberry_creek\"}, {\"landmark_name\": \"South Hall Little Bear\",\"coordinates\": \"37.871382, -122.258355\",\"filename\": \"south_hall\"}, {\"landmark_name\": \"Great Bear Bell Bears\",\"coordinates\": \"37.872061599999995,-122.2578123\",\"filename\": \"bell_bears\"}, {\"landmark_name\": \"Campanile Esplanade Bears\",\"coordinates\": \"37.87233810000001,-122.25792999999999\",\"filename\": \"bench_bears\"}]";
+            String jsonStr = "[ {\"landmark_name\": \"Class of 1927 Bear\",\"coordinates\": \"37.869288, -122.260125\",\"filename\": \"mlk_bear\"},{\"landmark_name\": \"Stadium Entrance Bear\",\"coordinates\": \"37.871305, -122.252516\",\"filename\": \"outside_stadium\"},{\"landmark_name\": \"Macchi Bears\",\"coordinates\": \"37.874118, -122.258778\", \"filename\": \"macchi_bears\"}, {\"landmark_name\": \"Les Bears\",\"coordinates\": \"37.871707, -122.253602\",\"filename\": \"les_bears\"}, {\"landmark_name\": \"Strawberry Creek Topiary Bear \",\"coordinates\": \"37.869861, -122.261148\",\"filename\": \"strawberry_creek\"}, {\"landmark_name\": \"South Hall Little Bear\",\"coordinates\": \"37.871382, -122.258355\",\"filename\": \"south_hall\"}, {\"landmark_name\": \"Great Bear Bell Bears\",\"coordinates\": \"37.872061599999995, -122.2578123\",\"filename\": \"bell_bears\"}, {\"landmark_name\": \"Campanile Esplanade Bears\",\"coordinates\": \"37.87233810000001, -122.25792999999999\",\"filename\": \"bench_bears\"}]";
             JSONArray jsonArr = new JSONArray(jsonStr);
             for (int i = 0; i < jsonArr.length(); i++) {
                 jsonObj = jsonArr.getJSONObject(i);
