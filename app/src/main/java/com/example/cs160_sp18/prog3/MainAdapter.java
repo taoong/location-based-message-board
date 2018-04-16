@@ -2,10 +2,12 @@ package com.example.cs160_sp18.prog3;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,10 +78,15 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder{
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(itemView.getContext(), CommentFeedActivity.class);
-                intent.putExtra("title", title);
-                intent.putExtra("username", username);
-                itemView.getContext().startActivity(intent);
+                if (mDistanceTextView.getText().toString().split(" ").length > 3) {
+                    Intent intent = new Intent(itemView.getContext(), CommentFeedActivity.class);
+                    intent.putExtra("title", title);
+                    intent.putExtra("username", username);
+                    itemView.getContext().startActivity(intent);
+                } else {
+                    Snackbar.make(view, "You must be within 10 meters of a landmark to access its message board!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }
@@ -87,8 +94,14 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder{
     void bind(Landmark landmark, Location location) {
         mNameTextView.setText(landmark.name);
         title = landmark.name;
-        mDistanceTextView.setText(Float.toString(landmark.getDistance(location)) + " meters away");
         mThumbnailImageView.setImageResource(landmark.thumbnail);
+        if (Math.round(landmark.getDistance(location)) < 10) {
+            mDistanceTextView.setText("Less than 10 meters away");
+            mDistanceTextView.setTextColor(Color.parseColor("#20ae51"));
+        } else {
+            mDistanceTextView.setText(Math.round(landmark.getDistance(location)) + " meters away");
+        }
+
     }
 
 }

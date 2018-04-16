@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 sampleLocation.setLatitude(37.869288d);
                 sampleLocation.setLongitude(-122.260125d);
                 onLocationChanged(sampleLocation);
+                SystemClock.sleep(1500);
                 setAdapterAndUpdateData();
             }
         });
