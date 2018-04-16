@@ -58,7 +58,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
     public ImageView mThumbnailImageView;
     public TextView mNameTextView;
     public TextView mDistanceTextView;
-    public View.OnClickListener mOnClickListener;
+    public String title;
 
     LandmarkViewHolder(final View itemView) {
         super(itemView);
@@ -70,6 +70,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(itemView.getContext(), CommentFeedActivity.class);
+                intent.putExtra("title", title);
                 itemView.getContext().startActivity(intent);
             }
         });
@@ -77,6 +78,7 @@ class LandmarkViewHolder extends RecyclerView.ViewHolder {
 
     void bind(Landmark landmark) {
         mNameTextView.setText(landmark.name);
+        title = landmark.name;
         mDistanceTextView.setText(landmark.distance);
         mThumbnailImageView.setImageResource(landmark.thumbnail);
     }

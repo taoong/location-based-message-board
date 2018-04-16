@@ -30,7 +30,7 @@
                 android:background="@color/cardview_dark_background"
                 android:contentDescription="@string/app_name"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"/>
 
             <TextView

@@ -1,5 +1,6 @@
 package com.example.cs160_sp18.prog3;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,14 +8,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 // Displays a list of comments for a particular landmark.
 public class CommentFeedActivity extends AppCompatActivity {
@@ -30,7 +40,7 @@ public class CommentFeedActivity extends AppCompatActivity {
     RelativeLayout layout;
     Button sendButton;
     Toolbar mToolbar;
-    ActionBar actionBar;
+    DatabaseReference myRef;
 
     /* TODO: right now mRecyclerView is using hard coded comments.
      * You'll need to add functionality for pulling and posting comments from Firebase
@@ -40,12 +50,6 @@ public class CommentFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_feed);
-
-        // TODO: replace this with the name of the landmark the user chose
-        String landmarkName = "test landmark";
-
-        // sets the app bar's title
-        setTitle(landmarkName + ": Posts");
 
         // hook up UI elements
         layout = (RelativeLayout) findViewById(R.id.comment_layout);
@@ -59,6 +63,34 @@ public class CommentFeedActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // create a reference to Firebase database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("comments");
+
+        // create a database listener
+        ValueEventListener myDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Set a breakpoint in this method and run in debug mode!!
+                // this will be called each time `someRef` or one of its children is modified
+                HashMap<String, String> value = (HashMap<String, String>) dataSnapshot.getValue();
+                mComments.add(new Comment(value.get("text"), value.get("username"), value.get("date")));
+                setAdapterAndUpdateData();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("0", "cancelled");
+            }
+        };
+        myRef.addValueEventListener(myDataListener);
+
+        Intent intent = getIntent();
+        Bundle intentExtras = intent.getExtras();
+        if (intentExtras != null) {
+            String title = (String) intentExtras.get("title");
+            getSupportActionBar().setTitle(title + ": Posts");
+        }
 
         // create an onclick for the send button
         setOnClickForSendButton();
@@ -89,11 +121,11 @@ public class CommentFeedActivity extends AppCompatActivity {
     // TODO: delete me
     private void makeTestComments() {
         String randomString = "hello world hello world ";
-        Comment newComment = new Comment(randomString, "test_user1", new Date());
-        Comment hourAgoComment = new Comment(randomString + randomString, "test_user2", new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
-        Comment overHourComment = new Comment(randomString, "test_user3", new Date(System.currentTimeMillis() - (2 * 60 * 60 * 1000)));
-        Comment dayAgoComment = new Comment(randomString, "test_user4", new Date(System.currentTimeMillis() - (25 * 60 * 60 * 1000)));
-        Comment daysAgoComment = new Comment(randomString + randomString + randomString, "test_user5", new Date(System.currentTimeMillis() - (48 * 60 * 60 * 1000)));
+        Comment newComment = new Comment(randomString, "test_user1", Long.toString(new Date().getTime()));
+        Comment hourAgoComment = new Comment(randomString + randomString, "test_user2", Long.toString(new Date().getTime()));
+        Comment overHourComment = new Comment(randomString, "test_user3", Long.toString(new Date().getTime()));
+        Comment dayAgoComment = new Comment(randomString, "test_user4", Long.toString(new Date().getTime()));
+        Comment daysAgoComment = new Comment(randomString + randomString + randomString, "test_user5", Long.toString(new Date().getTime()));
         mComments.add(newComment);mComments.add(hourAgoComment); mComments.add(overHourComment);mComments.add(dayAgoComment); mComments.add(daysAgoComment);
 
     }
@@ -126,8 +158,10 @@ public class CommentFeedActivity extends AppCompatActivity {
     }
 
     private void postNewComment(String commentText) {
-        Comment newComment = new Comment(commentText, "one-sixty student", new Date());
+        Comment newComment = new Comment(commentText, "one-sixty student", Long.toString(new Date().getTime()));
         mComments.add(newComment);
+
+        myRef.setValue(newComment);
         setAdapterAndUpdateData();
     }
 

@@ -7,9 +7,9 @@ public class Comment {
 
     public String text;
     public String username;
-    public Date date;
+    public String date;
 
-    Comment(String text, String username, Date date) {
+    Comment(String text, String username, String date) {
         this.text = text;
         this.username = username;
         this.date = date;
@@ -17,7 +17,7 @@ public class Comment {
 
     // returns a string indicating how long ago this post was made
     protected String elapsedTimeString() {
-        long diff = new Date().getTime() - date.getTime();
+        long diff = new Date().getTime() - Long.parseLong(date);
         long seconds = diff / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
